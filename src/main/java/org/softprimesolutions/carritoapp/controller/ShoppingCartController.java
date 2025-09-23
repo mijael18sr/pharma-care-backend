@@ -11,6 +11,7 @@ import org.softprimesolutions.carritoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -34,11 +35,8 @@ public class ShoppingCartController {
     private ShoppingCartDetailService shoppingCartDetailService;
 
     @PostMapping("/items")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> addItemToCart(@RequestBody ShoppingCartDetail cartDetail, Principal principal) {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-        }
-
         try {
             User user = userService.findByUsername(principal.getName());
             ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
@@ -80,11 +78,8 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getCart(Principal principal) {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-        }
-
         try {
             User user = userService.findByUsername(principal.getName());
             ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
@@ -95,11 +90,8 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/items/{itemId}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> removeItemFromCart(@PathVariable Integer itemId, Principal principal) {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-        }
-
         try {
             User user = userService.findByUsername(principal.getName());
             ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
@@ -120,11 +112,8 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/items/{itemId}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateCartItem(@PathVariable Integer itemId, @RequestParam int quantity, Principal principal) {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-        }
-
         try {
             User user = userService.findByUsername(principal.getName());
             ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
