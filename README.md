@@ -9,7 +9,7 @@ Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot, 
 *   **Carrito de Compras:** Funcionalidad para agregar, visualizar, actualizar y eliminar productos del carrito de un usuario.
 *   **Proceso de Pago:** Simulación de un proceso de checkout para finalizar la compra.
 *   **API REST:** Endpoints para interactuar con los recursos de la aplicación de forma programática.
-*   **Frontend (Server-Side):** Vistas generadas con Thymeleaf para una interacción directa desde el navegador.
+
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -19,6 +19,8 @@ Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot, 
     *   Spring Web
     *   Spring Security (con JWT)
     *   Spring Data JPA (Hibernate)
+    *   Spring Validation
+    *   Lombok
 *   **Frontend (Server-Side):**
     *   Thymeleaf
 *   **Base de Datos:**
@@ -109,4 +111,4 @@ Si prefieres no usar Docker, puedes instalar PostgreSQL manualmente.
     *   Base de datos: `bd_carrito_compras`
     *   Usuario: `carrito_compra`
     *   Contraseña: `CarritoCompra*`
-3.  Asegúrate de que el puerto configurado en `application.yml` coincida con el puerto en el que se está ejecutando tu instancia de PostgreSQL.
+3.  Asegúrate de que el puerto configurado en `application.yml` coincida con el puerto en el que se está ejecutando tu instancia de PostgreSQL.erto en el que se está ejecutando tu instancia de PostgreSQL.
