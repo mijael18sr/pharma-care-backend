@@ -1,210 +1,157 @@
 package org.softprimesolutions.carritoapp.controller;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.security.Principal;
-
-import org.softprimesolutions.carritoapp.model.*;
+import org.softprimesolutions.carritoapp.model.Product;
+import org.softprimesolutions.carritoapp.model.ShoppingCart;
+import org.softprimesolutions.carritoapp.model.ShoppingCartDetail;
+import org.softprimesolutions.carritoapp.model.User;
 import org.softprimesolutions.carritoapp.service.ProductService;
 import org.softprimesolutions.carritoapp.service.ShoppingCartDetailService;
 import org.softprimesolutions.carritoapp.service.ShoppingCartService;
 import org.softprimesolutions.carritoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.security.Principal;
+import java.util.Date;
 
-@Controller
+@RestController
+@RequestMapping("/api/shopping-cart")
 public class ShoppingCartController {
-
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ShoppingCartService shoppingCartService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
     private ShoppingCartDetailService shoppingCartDetailService;
 
-    private List<ShoppingCartDetail> details = new ArrayList<>();
-    private ShoppingCart shoppingCart = new ShoppingCart();
-
-    @PostMapping("/cart/add")
-    public String addCart(@RequestParam("id") Integer id,
-                         @RequestParam("quantity") Integer quantity,
-                         Principal principal,
-                         RedirectAttributes redirectAttributes) {
-
+    @PostMapping("/items")
+    public ResponseEntity<?> addItemToCart(@RequestBody ShoppingCartDetail cartDetail, Principal principal) {
         if (principal == null) {
-            redirectAttributes.addFlashAttribute("error", "Debe iniciar sesión para agregar productos al carrito");
-            return "redirect:/login";
-        }
-
-        try {
-            Product product = productService.findById(id);
-
-            // Verificar si el producto ya existe en el carrito temporal
-            boolean found = false;
-            for (ShoppingCartDetail detail : details) {
-                if (detail.getProduct().getId().equals(id)) {
-                    detail.setQuantity(detail.getQuantity() + quantity);
-                    detail.setSubtotal(detail.getPrice().multiply(BigDecimal.valueOf(detail.getQuantity())));
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                ShoppingCartDetail detail = new ShoppingCartDetail();
-                detail.setProduct(product);
-                detail.setQuantity(quantity);
-                detail.setPrice(product.getPrice());
-                detail.setSubtotal(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
-                details.add(detail);
-            }
-
-            redirectAttributes.addFlashAttribute("success", "Producto agregado al carrito exitosamente");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al agregar producto al carrito");
-        }
-
-        return "redirect:/cart";
-    }
-
-    @GetMapping("/cart")
-    public String cart(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-
-        BigDecimal total = BigDecimal.ZERO;
-        for (ShoppingCartDetail detail : details) {
-            total = total.add(detail.getSubtotal());
-        }
-
-        model.addAttribute("cart", details);
-        model.addAttribute("total", total);
-        return "cart";
-    }
-
-    @PostMapping("/cart/remove")
-    public String removeFromCart(@RequestParam("id") Integer productId,
-                                RedirectAttributes redirectAttributes) {
-        details.removeIf(detail -> detail.getProduct().getId().equals(productId));
-        redirectAttributes.addFlashAttribute("success", "Producto eliminado del carrito");
-        return "redirect:/cart";
-    }
-
-    @PostMapping("/cart/update")
-    public String updateCart(@RequestParam("id") Integer productId,
-                            @RequestParam("quantity") Integer quantity,
-                            RedirectAttributes redirectAttributes) {
-        for (ShoppingCartDetail detail : details) {
-            if (detail.getProduct().getId().equals(productId)) {
-                if (quantity <= 0) {
-                    details.remove(detail);
-                } else {
-                    detail.setQuantity(quantity);
-                    detail.setSubtotal(detail.getPrice().multiply(BigDecimal.valueOf(quantity)));
-                }
-                break;
-            }
-        }
-        redirectAttributes.addFlashAttribute("success", "Carrito actualizado");
-        return "redirect:/cart";
-    }
-
-    @GetMapping("/checkout")
-    public String checkout(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-
-        if (details.isEmpty()) {
-            return "redirect:/cart";
-        }
-
-        BigDecimal total = BigDecimal.ZERO;
-        for (ShoppingCartDetail detail : details) {
-            total = total.add(detail.getSubtotal());
-        }
-
-        User user = userService.findByUsername(principal.getName());
-        model.addAttribute("cart", details);
-        model.addAttribute("total", total);
-        model.addAttribute("user", user);
-        return "checkout";
-    }
-
-    @PostMapping("/cart/checkout")
-    public String processCheckout(Principal principal,
-                                 @RequestParam("cardholder") String cardholder,
-                                 @RequestParam("cardNumber") String cardNumber,
-                                 @RequestParam("expireDate") String expireDate,
-                                 @RequestParam("securityCode") String securityCode,
-                                 RedirectAttributes redirectAttributes) {
-
-        if (principal == null) {
-            return "redirect:/login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
         }
 
         try {
             User user = userService.findByUsername(principal.getName());
-
-            // Crear el carrito de compras
-            ShoppingCart cart = new ShoppingCart();
-            cart.setUser(user);
-            cart.setDate(new Date());
-
-            BigDecimal total = BigDecimal.ZERO;
-            for (ShoppingCartDetail detail : details) {
-                total = total.add(detail.getSubtotal());
-            }
-            cart.setTotalAmount(total);
-
-            // Guardar el carrito
-            ShoppingCart savedCart = shoppingCartService.save(cart);
-
-            // Guardar los detalles del carrito
-            for (ShoppingCartDetail detail : details) {
-                detail.setShoppingCart(savedCart);
-                shoppingCartDetailService.save(detail);
+            ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
+            if (cart == null) {
+                cart = new ShoppingCart();
+                cart.setUser(user);
+                cart.setDate(new Date());
+                cart.setTotalAmount(BigDecimal.ZERO);
+                cart.setStatus("0");
+                cart = shoppingCartService.save(cart);
             }
 
-            // Crear el detalle de pago
-            PaymentDetail paymentDetail = new PaymentDetail();
-            paymentDetail.setShoppingCart(savedCart);
-            paymentDetail.setCardholder(cardholder);
-            paymentDetail.setCardNumber(cardNumber);
-            paymentDetail.setExpireDate(expireDate);
-            paymentDetail.setSecurityCode(securityCode);
-            paymentDetail.setPaymentMethod("CREDIT_CARD");
-            paymentDetail.setPaymentStatus("COMPLETED");
+            Product product = productService.findById(cartDetail.getProduct().getId());
+            if (product == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+            }
 
-            // Limpiar el carrito temporal
-            details.clear();
+            // Check if the product is already in the cart
+            ShoppingCartDetail existingDetail = shoppingCartDetailService.findByShoppingCartAndProduct(cart, product);
+            if (existingDetail != null) {
+                existingDetail.setQuantity(existingDetail.getQuantity() + cartDetail.getQuantity());
+                existingDetail.setSubtotal(existingDetail.getPrice().multiply(BigDecimal.valueOf(existingDetail.getQuantity())));
+                shoppingCartDetailService.save(existingDetail);
+            } else {
+                cartDetail.setShoppingCart(cart);
+                cartDetail.setPrice(product.getPrice());
+                cartDetail.setSubtotal(product.getPrice().multiply(BigDecimal.valueOf(cartDetail.getQuantity())));
+                shoppingCartDetailService.save(cartDetail);
+            }
 
-            redirectAttributes.addFlashAttribute("success", "Compra realizada exitosamente");
-            return "redirect:/success";
+            // Update cart total
+            cart.setTotalAmount(shoppingCartDetailService.getTotalAmountByShoppingCart(cart.getId()));
+            shoppingCartService.save(cart);
 
+            return ResponseEntity.ok(cart);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al procesar la compra: " + e.getMessage());
-            return "redirect:/checkout";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding item to cart: " + e.getMessage());
         }
     }
 
-    @GetMapping("/success")
-    public String success() {
-        return "success";
+    @GetMapping("/")
+    public ResponseEntity<?> getCart(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+        }
+
+        try {
+            User user = userService.findByUsername(principal.getName());
+            ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
+            return ResponseEntity.ok(cart);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving cart: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/items/{itemId}")
+    public ResponseEntity<?> removeItemFromCart(@PathVariable Integer itemId, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+        }
+
+        try {
+            User user = userService.findByUsername(principal.getName());
+            ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
+            if (cart == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found");
+            }
+
+            shoppingCartDetailService.deleteById(itemId);
+
+            // Update cart total
+            cart.setTotalAmount(shoppingCartDetailService.getTotalAmountByShoppingCart(cart.getId()));
+            shoppingCartService.save(cart);
+
+            return ResponseEntity.ok(cart);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error removing item from cart: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/items/{itemId}")
+    public ResponseEntity<?> updateCartItem(@PathVariable Integer itemId, @RequestParam int quantity, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+        }
+
+        try {
+            User user = userService.findByUsername(principal.getName());
+            ShoppingCart cart = shoppingCartService.getCartByUser(user.getId());
+            if (cart == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found");
+            }
+
+            ShoppingCartDetail cartDetail = shoppingCartDetailService.findById(itemId);
+            if (cartDetail == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart item not found");
+            }
+
+            if (quantity <= 0) {
+                shoppingCartDetailService.deleteById(itemId);
+            } else {
+                cartDetail.setQuantity(quantity);
+                cartDetail.setSubtotal(cartDetail.getPrice().multiply(BigDecimal.valueOf(quantity)));
+                shoppingCartDetailService.save(cartDetail);
+            }
+
+            // Update cart total
+            cart.setTotalAmount(shoppingCartDetailService.getTotalAmountByShoppingCart(cart.getId()));
+            shoppingCartService.save(cart);
+
+            return ResponseEntity.ok(cart);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating cart item: " + e.getMessage());
+        }
     }
 }

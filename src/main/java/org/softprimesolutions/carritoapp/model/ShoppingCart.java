@@ -24,6 +24,8 @@ public class ShoppingCart extends EntityAudit {
     @Column(name = "total_amount", precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
+
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
