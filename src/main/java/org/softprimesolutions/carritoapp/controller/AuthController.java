@@ -38,13 +38,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            System.out.println("AuthController: Login attempt for user: " + loginRequest.getUsername());
             LoginResponse response = authService.login(loginRequest);
-            System.out.println("AuthController: Login successful for user: " + loginRequest.getUsername());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println("AuthController: Login error: " + e.getMessage());
-            e.printStackTrace();
             return ResponseEntity.badRequest()
                 .body(Map.of("error", "Login failed: " + e.getMessage()));
         }

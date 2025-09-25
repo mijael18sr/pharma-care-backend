@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            log.error("Cannot set user authentication: {}", e.getMessage());
+            log.debug("Cannot set user authentication: {}", e.getMessage());
             SecurityContextHolder.clearContext();
         }
 
@@ -85,8 +85,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-
-                log.debug("User {} authenticated successfully", username);
             }
         } catch (UsernameNotFoundException e) {
             log.warn("User not found: {}", username);
