@@ -3,7 +3,7 @@ services:
     image: postgres:latest
     environment:
       - 'POSTGRES_DB=bd_carrito_compras'
-      - 'POSTGRES_PASSWORD=CarritoCompra*'
-      - 'POSTGRES_USER=carrito_compra'
+      - 'POSTGRES_PASSWORD=CarritoCompra123'
+      - 'POSTGRES_USER=pharma_care'
     ports:
       - "5433:5432"

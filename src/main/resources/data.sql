@@ -193,14 +193,14 @@ FROM users u
     ON CONFLICT DO NOTHING;
 
 INSERT INTO categories (name, description, created_by) VALUES
-                                                           ('Analgesics', 'Pain relief medications', '48484848'),
-                                                           ('Antibiotics', 'Infection treatment medications', '48484848'),
-                                                           ('Vitamins', 'Nutritional supplements and vitamins', '48484848'),
-                                                           ('Dermatology', 'Skin care and treatment products', '48484848'),
-                                                           ('Respiratory', 'Respiratory system medications', '48484848'),
-                                                           ('Digestive', 'Digestive system medications', '48484848'),
-                                                           ('First Aid', 'First aid and wound care products', '48484848'),
-                                                           ('Baby Care', 'Baby and infant care products', '48484848');
+('Analgesics', 'Pain relief medications', '48484848'),
+('Antibiotics', 'Infection treatment medications', '48484848'),
+('Vitamins', 'Nutritional supplements and vitamins', '48484848'),
+('Dermatology', 'Skin care and treatment products', '48484848'),
+('Respiratory', 'Respiratory system medications', '48484848'),
+('Digestive', 'Digestive system medications', '48484848'),
+('First Aid', 'First aid and wound care products', '48484848'),
+('Baby Care', 'Baby and infant care products', '48484848');
 
 
 -- Datos de ejemplo para productos de farmacia

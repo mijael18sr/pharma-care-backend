@@ -3,15 +3,17 @@ server:
 
 spring:
   application:
-    name: PharmaCare+
+    #name: PharmaCare+
+    name: pharma-care
   datasource:
     url: jdbc:postgresql://localhost:5433/bd_carrito_compras
-    username: carrito_compra
-    password: CarritoCompra*
+    #username: carrito_compra
+    username: pharma_care
+    password: CarritoCompra123*
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:

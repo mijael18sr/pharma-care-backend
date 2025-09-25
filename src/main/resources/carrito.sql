@@ -182,47 +182,193 @@ INSERT INTO user_roles (user_id, role_id, created_by) VALUES
 
 -- Datos de ejemplo para categorías de farmacia
 INSERT INTO categories (name, description, created_by) VALUES
-('Analgesics', 'Pain relief medications', '48484848'),
-('Antibiotics', 'Infection treatment medications', '48484848'),
-('Vitamins', 'Nutritional supplements and vitamins', '48484848'),
-('Dermatology', 'Skin care and treatment products', '48484848'),
-('Respiratory', 'Respiratory system medications', '48484848'),
-('Digestive', 'Digestive system medications', '48484848'),
-('First Aid', 'First aid and wound care products', '48484848'),
-('Baby Care', 'Baby and infant care products', '48484848');
+('Analgesicos', 'Medicamentos para alivio del dolor', '48484848'),
+('Antibioticos', 'Medicamentos para tratamiento de infecciones', '48484848'),
+('Vitaminas', 'Suplementos nutricionales y vitaminas', '48484848'),
+('Dermatologia', 'Productos para cuidado y tratamiento de la piel', '48484848'),
+('Respiratorio', 'Medicamentos para el sistema respiratorio', '48484848'),
+('Digestivo', 'Medicamentos para el sistema digestivo', '48484848'),
+('Primeros Auxilios', 'Productos de primeros auxilios y cuidado de heridas', '48484848'),
+('Cuidado del Bebé', 'Productos para cuidado de bebés e infantes', '48484848'),
+('Cardiovascular', 'Medicamentos para el sistema cardiovascular', '48484848'),
+('Neurologia', 'Medicamentos para el sistema nervioso', '48484848'),
+('Endocrinologia', 'Medicamentos para trastornos hormonales', '48484848'),
+('Oftalmologia', 'Productos para cuidado ocular', '48484848'),
+('Otorrinolaringologia', 'Productos para oídos, nariz y garganta', '48484848'),
+('Ginecologia', 'Productos para salud femenina', '48484848'),
+('Urologia', 'Productos para el sistema urinario', '48484848'),
+('Reumatologia', 'Medicamentos para articulaciones y músculos', '48484848'),
+('Psiquiatria', 'Medicamentos para salud mental', '48484848'),
+('Oncologia', 'Medicamentos para tratamiento de cáncer', '48484848'),
+('Higiene Personal', 'Productos de higiene y cuidado personal', '48484848'),
+('Equipos Medicos', 'Dispositivos y equipos médicos', '48484848'),
+('Homeopatia', 'Productos homeopáticos y naturales', '48484848'),
+('Nutricion Deportiva', 'Suplementos para deportistas', '48484848'),
+('Geriatria', 'Productos especializados para adultos mayores', '48484848'),
+('Planificacion Familiar', 'Productos de planificación familiar', '48484848');
 
 -- Datos de ejemplo para productos de farmacia
 INSERT INTO products (name, description, price, stock, category_id, created_by) VALUES
--- Analgesicos
-('Paracetamol 500mg', 'Pain and fever relief tablets', 8.50, 100, 1, '48484848'),
-('Ibuprofen 400mg', 'Anti-inflammatory and pain relief', 12.00, 80, 1, '48484848'),
-('Aspirin 100mg', 'Low-dose aspirin for cardiovascular protection', 15.50, 60, 1, '48484848'),
+-- Analgesicos (1)
+('Paracetamol 500mg', 'Tabletas para alivio del dolor y fiebre', 8.50, 100, 1, '48484848'),
+('Ibuprofeno 400mg', 'Antiinflamatorio y analgésico', 12.00, 80, 1, '48484848'),
+('Aspirina 100mg', 'Aspirina de baja dosis para protección cardiovascular', 15.50, 60, 1, '48484848'),
+('Diclofenaco Gel 1%', 'Gel antiinflamatorio tópico', 18.75, 45, 1, '48484848'),
+('Ketorolaco 10mg', 'Analgésico potente para dolor moderado a severo', 22.00, 35, 1, '48484848'),
+('Metamizol 500mg', 'Analgésico y antipirético', 14.50, 70, 1, '48484848'),
 
--- Antibióticos
-('Amoxicillin 500mg', 'Broad-spectrum antibiotic', 25.00, 40, 2, '48484848'),
-('Azithromycin 250mg', 'Antibiotic for respiratory infections', 35.00, 30, 2, '48484848'),
+-- Antibioticos (2)
+('Amoxicilina 500mg', 'Antibiótico de amplio espectro', 25.00, 40, 2, '48484848'),
+('Azitromicina 250mg', 'Antibiótico para infecciones respiratorias', 35.00, 30, 2, '48484848'),
+('Ciprofloxacino 500mg', 'Antibiótico quinolona para infecciones bacterianas', 28.50, 25, 2, '48484848'),
+('Clindamicina 300mg', 'Antibiótico para infecciones de piel y tejidos blandos', 42.00, 20, 2, '48484848'),
+('Eritromicina 250mg', 'Antibiótico macrólido para infecciones respiratorias', 32.75, 35, 2, '48484848'),
+('Cefalexina 500mg', 'Antibiótico cefalosporina de primera generación', 38.00, 28, 2, '48484848'),
 
--- Vitaminas
-('Vitamin C 1000mg', 'Immune system support', 18.00, 150, 3, '48484848'),
-('Multivitamin Complex', 'Complete daily vitamin supplement', 22.50, 120, 3, '48484848'),
-('Vitamin D3 2000 IU', 'Bone health and immune support', 20.00, 90, 3, '48484848'),
+-- Vitaminas (3)
+('Vitamina C 1000mg', 'Soporte para el sistema inmunológico', 18.00, 150, 3, '48484848'),
+('Complejo Multivitamínico', 'Suplemento vitamínico diario completo', 22.50, 120, 3, '48484848'),
+('Vitamina D3 2000 UI', 'Soporte para huesos y sistema inmune', 20.00, 90, 3, '48484848'),
+('Vitamina B12 1000mcg', 'Esencial para el sistema nervioso y energía', 25.00, 80, 3, '48484848'),
+('Ácido Fólico 5mg', 'Esencial para embarazo y formación de glóbulos rojos', 16.50, 100, 3, '48484848'),
+('Vitamina E 400 UI', 'Antioxidante para protección celular', 19.75, 65, 3, '48484848'),
+('Omega 3 1000mg', 'Ácidos grasos esenciales para salud cardiovascular', 35.00, 50, 3, '48484848'),
 
--- Dermatología
-('Hydrocortisone Cream 1%', 'Anti-inflammatory skin cream', 14.00, 70, 4, '48484848'),
-('Antifungal Cream', 'Treatment for fungal skin infections', 16.50, 50, 4, '48484848'),
+-- Dermatologia (4)
+('Crema Hidrocortisona 1%', 'Crema antiinflamatoria para la piel', 14.00, 70, 4, '48484848'),
+('Crema Antifúngica', 'Tratamiento para infecciones fúngicas de la piel', 16.50, 50, 4, '48484848'),
+('Protector Solar FPS 50', 'Protección solar de amplio espectro', 28.00, 85, 4, '48484848'),
+('Crema para Eczema', 'Tratamiento para dermatitis y eczema', 24.50, 40, 4, '48484848'),
+('Loción Calamina', 'Alivio para picazón e irritaciones cutáneas', 12.75, 60, 4, '48484848'),
+('Crema Cicatrizante', 'Acelera la cicatrización de heridas menores', 18.25, 55, 4, '48484848'),
 
--- Respiratorio
-('Cough Syrup', 'Relief for dry and productive cough', 18.50, 85, 5, '48484848'),
-('Nasal Decongestant Spray', 'Fast relief for nasal congestion', 12.50, 95, 5, '48484848'),
+-- Respiratorio (5)
+('Jarabe para la Tos', 'Alivio para tos seca y productiva', 18.50, 85, 5, '48484848'),
+('Spray Nasal Descongestionante', 'Alivio rápido para congestión nasal', 12.50, 95, 5, '48484848'),
+('Salbutamol Inhalador', 'Broncodilatador para asma y EPOC', 45.00, 30, 5, '48484848'),
+('Pastillas para la Garganta', 'Alivio para dolor de garganta', 8.75, 120, 5, '48484848'),
+('Expectorante Guaifenesina', 'Ayuda a expulsar mucosidad', 15.50, 70, 5, '48484848'),
+('Antihistamínico Loratadina', 'Para alergias y rinitis', 14.25, 80, 5, '48484848'),
 
--- Digestivo
-('Antacid Tablets', 'Relief for heartburn and acid indigestion', 9.50, 110, 6, '48484848'),
-('Probiotic Capsules', 'Digestive health support', 28.00, 45, 6, '48484848'),
+-- Digestivo (6)
+('Tabletas Antiácidas', 'Alivio para acidez y indigestión', 9.50, 110, 6, '48484848'),
+('Cápsulas Probióticas', 'Soporte para salud digestiva', 28.00, 45, 6, '48484848'),
+('Loperamida 2mg', 'Tratamiento para diarrea', 12.50, 75, 6, '48484848'),
+('Omeprazol 20mg', 'Inhibidor de bomba de protones para acidez', 22.00, 60, 6, '48484848'),
+('Sales de Rehidratación Oral', 'Reposición de electrolitos', 8.25, 90, 6, '48484848'),
+('Simeticona 40mg', 'Alivio para gases y distensión abdominal', 11.75, 85, 6, '48484848'),
 
--- Primeros Auxilios
-('Adhesive Bandages Pack', 'Assorted sizes for wound protection', 6.50, 200, 7, '48484848'),
-('Antiseptic Solution', 'Wound cleaning and disinfection', 11.00, 75, 7, '48484848'),
+-- Primeros Auxilios (7)
+('Vendas Adhesivas Variadas', 'Protección para heridas de varios tamaños', 6.50, 200, 7, '48484848'),
+('Solución Antiséptica', 'Limpieza y desinfección de heridas', 11.00, 75, 7, '48484848'),
+('Gasa Estéril 10x10cm', 'Cobertura estéril para heridas', 5.25, 150, 7, '48484848'),
+('Alcohol Isopropílico 70%', 'Desinfectante de uso general', 7.50, 100, 7, '48484848'),
+('Agua Oxigenada 10 vol', 'Antiséptico para limpieza de heridas', 4.75, 120, 7, '48484848'),
+('Vendaje Elástico', 'Soporte para esguinces y lesiones', 9.25, 80, 7, '48484848'),
 
--- Cuidado del Bebé
-('Baby Thermometer', 'Digital thermometer for infants', 35.00, 25, 8, '48484848'),
-('Baby Lotion', 'Gentle moisturizing lotion for sensitive skin', 16.00, 60, 8, '48484848');
+-- Cuidado del Bebé (8)
+('Termómetro Digital Bebé', 'Termómetro digital para infantes', 35.00, 25, 8, '48484848'),
+('Loción Bebé', 'Loción humectante suave para piel sensible', 16.00, 60, 8, '48484848'),
+('Champú Bebé Sin Lágrimas', 'Champú suave para cabello delicado', 14.50, 70, 8, '48484848'),
+('Pañales Desechables Talla M', 'Pañales absorbentes para bebés', 42.00, 40, 8, '48484848'),
+('Toallitas Húmedas Bebé', 'Toallitas suaves para limpieza', 12.75, 85, 8, '48484848'),
+('Crema para Pañalitis', 'Protección contra irritaciones del pañal', 18.25, 55, 8, '48484848'),
+
+-- Cardiovascular (9)
+('Enalapril 10mg', 'Inhibidor ACE para hipertensión', 15.50, 60, 9, '48484848'),
+('Atorvastatina 20mg', 'Estatina para control de colesterol', 28.75, 45, 9, '48484848'),
+('Metoprolol 50mg', 'Betabloqueador para hipertensión', 22.00, 40, 9, '48484848'),
+('Losartán 50mg', 'Bloqueador de receptores de angiotensina', 18.25, 55, 9, '48484848'),
+('Furosemida 40mg', 'Diurético para retención de líquidos', 12.50, 70, 9, '48484848'),
+('Aspirina Cardio 100mg', 'Protección cardiovascular', 16.75, 80, 9, '48484848'),
+
+-- Neurologia (10)
+('Paracetamol + Cafeína', 'Analgésico con estimulante para cefaleas', 14.50, 65, 10, '48484848'),
+('Sumatriptán 50mg', 'Tratamiento específico para migraña', 85.00, 15, 10, '48484848'),
+('Gabapentina 300mg', 'Anticonvulsivante para dolor neuropático', 45.00, 25, 10, '48484848'),
+('Clonazepam 0.5mg', 'Benzodiacepina para ansiedad y convulsiones', 18.75, 30, 10, '48484848'),
+('Levodopa + Carbidopa', 'Tratamiento para enfermedad de Parkinson', 125.00, 10, 10, '48484848'),
+
+-- Endocrinologia (11)
+('Metformina 850mg', 'Antidiabético para diabetes tipo 2', 16.50, 80, 11, '48484848'),
+('Levotiroxina 100mcg', 'Hormona tiroidea para hipotiroidismo', 22.00, 60, 11, '48484848'),
+('Glibenclamida 5mg', 'Sulfonilurea para diabetes tipo 2', 14.75, 70, 11, '48484848'),
+('Insulina Glargina', 'Insulina de acción prolongada', 95.00, 20, 11, '48484848'),
+('Prednisona 20mg', 'Corticosteroide antiinflamatorio', 12.25, 50, 11, '48484848'),
+
+-- Oftalmologia (12)
+('Gotas Oculares Lubricantes', 'Lágrimas artificiales para ojo seco', 18.50, 45, 12, '48484848'),
+('Colirio Antibiótico', 'Tratamiento para infecciones oculares', 25.00, 30, 12, '48484848'),
+('Gotas para Conjuntivitis', 'Alivio para irritación ocular', 16.75, 40, 12, '48484848'),
+('Colirio Antihistamínico', 'Para alergias oculares', 22.50, 35, 12, '48484848'),
+
+-- Otorrinolaringologia (13)
+('Gotas Óticas', 'Tratamiento para infecciones del oído', 19.50, 35, 13, '48484848'),
+('Spray Nasal Salino', 'Limpieza nasal suave', 12.00, 60, 13, '48484848'),
+('Pastillas para Garganta con Miel', 'Alivio natural para dolor de garganta', 9.75, 80, 13, '48484848'),
+('Descongestionante Nasal', 'Alivio para congestión nasal severa', 15.25, 50, 13, '48484848'),
+
+-- Ginecologia (14)
+('Óvulos Vaginales Antifúngicos', 'Tratamiento para candidiasis vaginal', 28.50, 25, 14, '48484848'),
+('Ácido Fólico Prenatal', 'Suplemento esencial durante el embarazo', 18.75, 60, 14, '48484848'),
+('Prueba de Embarazo', 'Detección rápida de embarazo en orina', 12.50, 40, 14, '48484848'),
+('Gel Lubricante Vaginal', 'Lubricante íntimo a base de agua', 16.25, 35, 14, '48484848'),
+
+-- Urologia (15)
+('Arándano Rojo Cápsulas', 'Prevención de infecciones urinarias', 24.00, 40, 15, '48484848'),
+('Tamsulosina 0.4mg', 'Tratamiento para hiperplasia prostática', 32.50, 25, 15, '48484848'),
+('Fenazopiridina 200mg', 'Analgésico urinario', 18.75, 35, 15, '48484848'),
+
+-- Reumatologia (16)
+('Glucosamina + Condroitina', 'Suplemento para salud articular', 45.00, 30, 16, '48484848'),
+('Gel Antiinflamatorio', 'Alivio tópico para dolor muscular y articular', 22.50, 50, 16, '48484848'),
+('Parches de Calor', 'Alivio térmico para dolor muscular', 15.75, 60, 16, '48484848'),
+('Colágeno Hidrolizado', 'Suplemento para articulaciones y piel', 38.00, 25, 16, '48484848'),
+
+-- Psiquiatria (17)
+('Sertralina 50mg', 'Antidepresivo ISRS', 35.00, 30, 17, '48484848'),
+('Fluoxetina 20mg', 'Antidepresivo para depresión y ansiedad', 28.50, 40, 17, '48484848'),
+('Alprazolam 0.25mg', 'Ansiolítico para trastornos de ansiedad', 22.75, 25, 17, '48484848'),
+
+-- Oncologia (18)
+('Ondansetrón 8mg', 'Antiemético para náuseas por quimioterapia', 65.00, 15, 18, '48484848'),
+('Morfina de Liberación Prolongada', 'Analgésico potente para dolor oncológico', 125.00, 8, 18, '48484848'),
+
+-- Higiene Personal (19)
+('Champú Anticaspa', 'Tratamiento para caspa y dermatitis seborreica', 18.50, 45, 19, '48484848'),
+('Jabón Antibacterial', 'Limpieza antibacterial de manos', 8.75, 100, 19, '48484848'),
+('Desodorante Antitranspirante', 'Protección 48 horas contra sudor', 14.25, 70, 19, '48484848'),
+('Pasta Dental Fluorada', 'Protección contra caries y placa', 12.50, 85, 19, '48484848'),
+('Enjuague Bucal Antiséptico', 'Elimina bacterias y refresca el aliento', 16.75, 60, 19, '48484848'),
+
+-- Equipos Medicos (20)
+('Tensiómetro Digital', 'Monitor de presión arterial automático', 85.00, 15, 20, '48484848'),
+('Glucómetro + Tiras', 'Monitor de glucosa en sangre', 65.00, 20, 20, '48484848'),
+('Nebulizador Ultrasónico', 'Dispositivo para terapia respiratoria', 120.00, 10, 20, '48484848'),
+('Termómetro Infrarrojo', 'Medición de temperatura sin contacto', 45.00, 25, 20, '48484848'),
+('Oxímetro de Pulso', 'Monitor de saturación de oxígeno', 55.00, 18, 20, '48484848'),
+
+-- Homeopatia (21)
+('Árnica Montana 30CH', 'Remedio homeopático para traumatismos', 16.50, 40, 21, '48484848'),
+('Oscillococcinum', 'Tratamiento homeopático para síntomas gripales', 25.00, 30, 21, '48484848'),
+('Belladonna 30CH', 'Para fiebre y dolor pulsátil', 14.75, 35, 21, '48484848'),
+('Rescue Remedy', 'Flores de Bach para situaciones de estrés', 22.50, 25, 21, '48484848'),
+
+-- Nutricion Deportiva (22)
+('Proteína Whey Isolate', 'Proteína de suero aislada para deportistas', 85.00, 20, 22, '48484848'),
+('Creatina Monohidrato', 'Suplemento para rendimiento deportivo', 35.00, 30, 22, '48484848'),
+('BCAA Aminoácidos', 'Aminoácidos ramificados para recuperación', 42.50, 25, 22, '48484848'),
+('Bebida Isotónica', 'Reposición de electrolitos durante ejercicio', 8.75, 60, 22, '48484848'),
+('Pre-entreno Energizante', 'Suplemento pre-entrenamiento', 48.00, 20, 22, '48484848'),
+
+-- Geriatria (23)
+('Suplemento de Calcio + D3', 'Prevención de osteoporosis en adultos mayores', 28.00, 40, 23, '48484848'),
+('Ginkgo Biloba', 'Suplemento para función cognitiva', 32.50, 35, 23, '48484848'),
+('Complejo B para Seniors', 'Vitaminas B específicas para adultos mayores', 24.75, 45, 23, '48484848'),
+('Pastillero Semanal', 'Organizador de medicamentos por días', 15.50, 30, 23, '48484848'),
+
+-- Planificacion Familiar (24)
+('Preservativos Lubricados', 'Protección y prevención de ETS', 12.50, 80, 24, '48484848'),
+('Gel Espermicida', 'Método anticonceptivo complementario', 18.75, 25, 24, '48484848'),
+('Anticonceptivos de Emergencia', 'Píldora del día después', 35.00, 15, 24, '48484848'),
+('Test de Ovulación', 'Detección de días fértiles', 28.50, 20, 24, '48484848');

@@ -8,16 +8,45 @@ import org.softprimesolutions.carritoapp.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> health() {
+        return ResponseEntity.ok(Map.of(
+            "status", "UP",
+            "message", "Auth service is running"
+        ));
+    }
+
+    @GetMapping("/test-users")
+    public ResponseEntity<Map<String, Object>> testUsers() {
+        // Este es un endpoint temporal solo para debugging
+        return ResponseEntity.ok(Map.of(
+            "message", "Test endpoint for debugging",
+            "suggestion", "Check if users exist in database"
+        ));
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-        LoginResponse response = authService.login(loginRequest);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            System.out.println("AuthController: Login attempt for user: " + loginRequest.getUsername());
+            LoginResponse response = authService.login(loginRequest);
+            System.out.println("AuthController: Login successful for user: " + loginRequest.getUsername());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("AuthController: Login error: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", "Login failed: " + e.getMessage()));
+        }
     }
 }

@@ -1,24 +1,29 @@
 package org.softprimesolutions.carritoapp.controller;
 
-import org.softprimesolutions.carritoapp.model.Product;
-import org.softprimesolutions.carritoapp.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class HomeController {
 
-    @Autowired
-    private ProductService productService;
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> health() {
+        return ResponseEntity.ok(Map.of(
+            "status", "UP",
+            "message", "PharmaCare+ API is running",
+            "timestamp", String.valueOf(System.currentTimeMillis())
+        ));
+    }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.findAll());
+    @GetMapping("/test")
+    public ResponseEntity<Map<String, String>> test() {
+        return ResponseEntity.ok(Map.of(
+            "message", "API Test endpoint working",
+            "cors", "enabled"
+        ));
     }
 }

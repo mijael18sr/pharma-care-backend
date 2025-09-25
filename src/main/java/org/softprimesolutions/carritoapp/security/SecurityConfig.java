@@ -29,37 +29,33 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/**", "/web-login") // Disable CSRF for API and web-login
-                )
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF completely for REST API
                 .authorizeHttpRequests(authz -> authz
-                        // Web endpoints - require authentication
-                        .requestMatchers("/", "/home", "/dashboard").authenticated()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-
-                        // Public web endpoints
-                        .requestMatchers("/login", "/register", "/error", "/web-login").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-
-                        // API endpoints
+                        // API endpoints - public access
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/products/**").permitAll()
+                        .requestMatchers("/api/health/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        
+                        // Development and monitoring
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/error").permitAll()
 
-                        .anyRequest().authenticated()
+                        // Protected API endpoints require authentication
+                        .requestMatchers("/api/cart/**").authenticated()
+                        .requestMatchers("/api/checkout/**").authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/products-manager/**").hasRole("ADMIN")
+                        .requestMatchers("/api/categories/**").permitAll()
+                        
+                        // Allow all other requests (for development)
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Cambiar a STATELESS para JWT
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .userDetailsService(userDetailsService)
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/login") // Redirige a /login en caso de 403
-                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
